@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
                                 // Adds strings from the current object to the data string
                                 //spacing is included at the end to separate the results from
                                 //one another
-                                data += "Color Number " + (i + 1) + "nColor Name: " + color +
-                                        "nHex Value : " + hex + "nnn";
+                                data += "Color Number " + (i + 1) + "\n Color Name: " + color +
+                                        "\n Hex Value : " + hex + "\n \n \n";
                             }
                             // Adds the data string to the TextView "results"
                             results.setText(data);
