@@ -1,6 +1,7 @@
 package com.mits.kakaroto.volleyjson;
 
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.List;
  */
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyViewHolder> {
-
+    private Context context;
     private List<Articles> dataset;
 
     class MyViewHolder extends RecyclerView.ViewHolder{
@@ -38,8 +41,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyViewHo
         }
     }
 
-    public ArticleAdapter(List<Articles> dataset){
+    public ArticleAdapter(Context context, List<Articles> dataset){
         this.dataset = dataset;
+        this.context = context;
     }
 
     @Override
@@ -60,8 +64,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyViewHo
         holder.published.setText(articles.getPublished());
 
         //Picasso.with(this).load(articles.getUrlImage()).into(holder.image);
+        Glide.with(context).load(articles.getUrlImage()).into(holder.image);
 
-        holder.image.setImageURI(Uri.parse(articles.getUrlImage()));
         //holder.duration.setText(movie.getDuration());
 //        holder.image.setImageResource(movie.getImageAddrees());
     }

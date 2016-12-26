@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                                 articlesList.add(new Articles(author, title,description, url, urlImage, published));
                                 results.setText(source.toUpperCase());
 
-                                adapter = new ArticleAdapter(articlesList);
+                                adapter = new ArticleAdapter(MainActivity.this, articlesList);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                                 recyclerView.setAdapter(adapter);
 
