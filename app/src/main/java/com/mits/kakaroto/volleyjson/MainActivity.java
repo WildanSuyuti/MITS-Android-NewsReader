@@ -16,11 +16,13 @@ import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
-    TextView results;
-    String JsonURL = "https://raw.githubusercontent.com/ianbar20/JSON-Volley-Tutorial/master/Example-JSON-Files/Example-Object.JSON";
-    String data = "";
-    RequestQueue requestQueue;
-
+    private TextView results;
+    //private String JsonURL = "http://api.androidhive.info/volley/person_object.json";
+    private String JsonURL = "https://newsapi.org/v1/articles?source=techcrunch&apiKey=49a941acf9da4909bf7f08284debe208";
+    private String data = "";
+    private RequestQueue requestQueue;
+    private JsonObjectRequest obreq;
+    private String name, email, home, mobile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,19 +30,25 @@ public class MainActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
         results = (TextView) findViewById(R.id.jsonData);
+        initJsonObject();
+    }
 
-        JsonObjectRequest obreq = new JsonObjectRequest(Request.Method.GET, JsonURL,
+    private void initJsonObject(){
+        obreq = new JsonObjectRequest(Request.Method.GET, JsonURL,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONObject obj = response.getJSONObject("colorObject");
-                            String color = obj.getString("colorName");
-                            String desc = obj.getString("description");
 
-                            data += "Color Name: " + color +
-                                    "nDescription : " + desc;
+                            name = response.getString("source");
+//                            email = response.getString("email");
+
+                            JSONObject phone = response.getJSONObject("articles");
+                            home = phone.getString("author");
+//                            mobile = phone.getString("mobile");
+
+                            data += "Name: " + name + "\n" + "Home : " + home + "\n";
 
                             results.setText(data);
                         }
