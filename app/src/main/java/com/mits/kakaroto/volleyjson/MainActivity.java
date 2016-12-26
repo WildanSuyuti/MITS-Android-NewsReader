@@ -44,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
                             name = response.getString("source");
 //                            email = response.getString("email");
 
-                            JSONObject phone = response.getJSONObject("articles");
-                            home = phone.getString("author");
+//                            JSONObject phone = response.getJSONObject("articles");
+//                            home = phone.getString("author");
 //                            mobile = phone.getString("mobile");
 
-                            data += "Name: " + name + "\n" + "Home : " + home + "\n";
+                            data += "Name: ";
 
                             results.setText(data);
                         }
