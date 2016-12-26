@@ -1,6 +1,9 @@
 package com.mits.kakaroto.volleyjson;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -47,9 +51,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         image = (ImageView) findViewById(R.id.img_article);
         results = (TextView) findViewById(R.id.jsonData);
+        showProgressDialog();
         initJson();
-//        context = getApplicationContext();
-
     }
 
     public void initJson(){
@@ -61,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
 
-                            String status = response.get("status").toString();
                             artticle = response.getJSONArray("articles");
 
                             for (int i = 0; i< artticle.length(); i++){
@@ -77,10 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
                                 articlesList.add(new Articles(author, title,description, url, urlImage, published));
                                 results.setText(source.toUpperCase());
+
                                 adapter = new ArticleAdapter(articlesList);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
                                 recyclerView.setAdapter(adapter);
+
 //                                Picasso.with(context).load(articlesList.get(i).getUrlImage()).into(image);
                             }
 
@@ -102,5 +105,41 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         requestQueue.add(obreq);
+    }
+
+    private void showProgressDialog(){
+        //Deklarasi variabel dengan tipe AlertDialog
+        final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+
+        //Mengeset judul dialog
+        progressDialog.setTitle("Loading ....");
+
+        //Mengeset agar dialog tidak dapat dibatalkan
+        progressDialog.setCancelable(false);
+
+        //Mengeset konten/isi pedan pada dialog
+        progressDialog.setMessage("Please wait being processed");
+
+        //Mengeset tombol Negative
+        progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.cancel();
+                    }
+                });
+
+        //Menampilkan dialog
+        progressDialog.show();
+
+        new Handler().postDelayed(new Runnable(){
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                progressDialog.dismiss();
+            }}, 5000);
     }
 }
